@@ -1,0 +1,340 @@
+\title { Multi-Rate Processing }
+\author{     Clint Ferrin      }
+\date  {   Tue Nov 14, 2017    }
+\def\class{ Neural Networks: ECE 5630 }
+\documentclass{article}\makeatletter\usepackage{xparse}
+
+\DeclareDocumentCommand{\main}{} {
+    \pageSetup
+    \createTitlePage
+    \includeHeader
+    \createTableOfContents
+
+   \section{Introduction}\label{sec:intro}
+        This paper shows how to perform multi-rate processing using decimation and interpolation. Matlab's \mono{fdatool} was utilized to create the filters necessary for the sample rate conversion, and \mono{C plus plus} for programming.
+      
+   \section{Filter Design}\label{sec:filter-design}
+        \subsection{Problem 1:} Design a linear phase FIR low-pass (prototype) filter $H(z)$ to be used in your sample-rate converter. Be sure that the cutoff of the filter is appropriate for the conversion.
+
+        To design the filter necessary for the sample-rate converter, I calculated the cutoff frequency necessary for the down-sampler and interpolator, and found that the narrower low-pass filter of the two was the interpolation filter ($L=3>M=2$).
+
+        The coefficients for the filter are:
+
+        \lstpy{./media/coefficients.d}{Test}{lst:coef}[0][100]
+        
+
+        (a) The impulse response for the given filter is seen in \reff{fig:h-n-impulse-response}
+        \newFigure{./media/h-impulse-response.pdf}{Impulse Response}{.5}{fig:h-n-impulse-response}
+
+        (b) Plots the magnitude and phase response can be seen in \reff{fig:mag-phase-H}
+
+        \newFigureTwo
+        {./media/H-mag-response.pdf}{.9}
+        {./media/H-phse-response.pdf}{.9}
+        {(a) Plot of Magnitude Response for Low-pass Filter. (b) Plot for Phase Response for Low-pass Filter}
+        {Plot of Magnitude and Phase Response}
+        {fig:mag-phase-H}
+
+        
+        (c) The difference equation for the filter is of length 21 as seen in Listing \ref{lst:coef}. 
+
+        (d) To design the filter I used the FDA tool in Matlab. Note that the Sample Frequency was input as 11025 because that was the sample rate of the original sound file. The low-pass filter needed to be the smaller of the low-pass filter needed for the interpolator and the decimator. The Decimator required a cutoff frequency of $\frac{\pi}{2}$ and the interpolator required a cutoff frequency  of $\frac{\pi}{3}$, so I maintained the lower of the two cutoff frequencies. $\frac{\pi}{3}$ of $F_s$ is equal to 1837.5, so I made 1838 the cutoff frequency. 
+        \newFigure{./media/fdatool.png}{\mono{fdatool} in Matlab}{.6}{fig:matlab-fda}
+
+        (e) The pass-band and stop-band edge frequencies are 1737 Hz and 1838 Hz respectively.
+
+        (f) The size of the ripple in the pass-band is 0.001 dB
+
+        (g) The peak side-lobe level is equal to -80 dB?
+
+
+
+
+ 
+
+
+
+   \section{Conclusion}\label{sec:conclusion}
+        This is a conclusion paragraph. 
+}
+
+%  ┌────────────────────────┐
+%  │     Extra Packages     │
+%  └────────────────────────┘
+    \usepackage{fontspec}   % allows Unicode in XeLaTex
+    \usepackage{ucharclasses} % allows Unicode in XeLaTex
+    \usepackage[utf8]{inputenc}	% allows new character options
+    \usepackage[a4paper]{geometry} % Paper dimensions and margins
+    \usepackage{fancyhdr}   % include document header
+    \usepackage{amsmath}    % allows equations to be split
+    \usepackage{bm}         % use of bold characters in math mode
+    \usepackage{enumitem}   % create lists
+    \usepackage{graphicx}	% manage images and graphics
+    \usepackage{hyperref}	% creates hyper-link color options
+    \usepackage{cleveref}	% (\Cref) include "Figure" on \reff 
+    \usepackage{xstring}    % StrSubstitute replace character
+    \usepackage{floatrow}	% allows placement of figures [H]
+    \usepackage{url}    	% package for url links
+    \usepackage{titletoc}   % change Table of Contents settings
+    \usepackage{caption}    % removes figure from LoF: \caption[]{}
+    \usepackage{listings, lstautogobble} % includes ability to input code
+    \usepackage{color}      % include colors for 
+    \usepackage{etoolbox}
+    \usepackage{tabulary}	% columns size of their contents (on page)
+    \usepackage{booktabs}   % allows for \toprule in tables
+    \usepackage{subcaption} % add two plots together
+    \usepackage[nomessages]{fp} % calculations in latex
+    \usepackage{tocloft}    % adjust the table of contents
+    \usepackage{scrextend}  % \begin{addmargin}[<left indent>]{<indent>}
+    \usepackage{pdfpages}   % include entire pdf documents
+
+
+    \definecolor{mygreen}{RGB}{28,172,0}	% custom defined colors
+    \definecolor{mylilas}{RGB}{170,55,241}
+    \definecolor{mymauve}{rgb}{0.58,0,0.82}
+    \definecolor{light-gray}{gray}{0.95} %the shade of grey that stack exchange uses
+
+    \lstset {
+        language=Python,
+        backgroundcolor = \color{light-gray},
+        breaklines		= true,
+        breaklines		= true,
+        keywordstyle    = \color{blue},
+        morekeywords    = [2]{1}, keywordstyle=[2]{\color{black}},
+        identifierstyle = \color{black},
+        stringstyle     = \color{mylilas},
+        commentstyle    = \color{mygreen},
+        numbers         = left,
+        numberstyle     = {\tiny \color{black}},	% size of the numbers
+        numbersep       = 6pt, 						% distance of numbers from text
+        emph            = [1]{as, for, end, break}, % bold for, end, break...
+        emphstyle 		= [1]\color{red}, 			% emphasis
+        basicstyle		= \footnotesize\ttfamily,	% set font to courier
+        frameround      = ffff,                     % TR, BR, BL, TL. t(round)|f(flat)
+        frame           = single,                   % single line all around
+        showstringspaces= false,                    % blank spaces appear as written
+        autogobble      = true
+    }
+
+%  ┌────────────────────────┐
+%  │      Common Tasks      │
+%  └────────────────────────┘
+    \DeclareDocumentCommand{\commontasks}{m} {
+        \href{https://drive.google.com/open?id=0B5NW7S3txe5UTE0xSHJHNWxJbEE}{\underline{this link}} 
+        \mono{PYTHON}
+        \lstinputlisting[language=Python]{../python/3_linear.py}
+
+        % two figures side by side
+        \begin{figure}[H]
+            \includegraphics[width=.45\linewidth]{./media/1-nearest.pdf}\hfill 
+            \includegraphics[width=.45\linewidth]{./media/5-nearest.pdf}
+            \caption[k=1 and k=5 Nearest Neighbor]{Left: k=1 Nearest Neighbor. Right: k=5 Nearest Neighbor}
+            \label{fig:kNearOneAndFive}
+        \end{figure}
+
+    }
+
+%  ┌────────────────────────┐
+%  │   General Functions    │
+%  └────────────────────────┘
+    \DeclareDocumentCommand{\mono}{m} {
+        \sloppy
+        \lstinline{#1} 
+    }
+
+    % function to create magnitude bars around a function
+    \newcommand\longvar[1]{\mathchardef\UrlBreakPenalty=100
+    \mathchardef\UrlBigBreakPenalty=100\url{#1}}
+    \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+    \DeclareDocumentCommand{\margin}{m} {
+        \begin{addmargin}[4em]{0em}
+            #1 
+        \end{addmargin} 
+    }
+    \DeclareDocumentCommand{\newFigureTwo}{mmmmmmm} {
+        % \FPeval{opposite}{1-#9}
+        \begin{figure}[H]
+        \centering
+        \begin{subfigure}{.5\textwidth}
+          \centering
+          \includegraphics[width=#2\linewidth]{#1}
+          % \caption{#2}
+        \end{subfigure}%
+        \begin{subfigure}{.5\textwidth}
+          \centering
+          \includegraphics[width=#4\linewidth]{#3}
+          % \caption{#5}
+        \end{subfigure}
+        \caption[#6]{#5}
+        \label{#7}
+        \end{figure}
+    }
+
+    \DeclareDocumentCommand{\lstpy}{m m m o o} {
+        % \lstinputlisting[language=C++,firstline=#4,lastline=#5,caption={#2},captionpos=b,label={#3}]{#1}
+        \lstinputlisting[language=Python,caption={#2},label={#3},firstline=#4,lastline=#5]{#1}%
+    }
+
+    \DeclareDocumentCommand{\reff}{m} {
+        \edef\link{#1}
+        \hspace{-0.5em}\hyperref[\link]{\Cref*{\link}} \hspace{-0.65em}
+    }
+
+    \DeclareDocumentCommand{\newFigure}{m m m m} {
+        \edef\path{#1} \edef\figcaption{#2} \edef\size{#3}  
+
+        % add size if not present
+        \IfNoValueTF{#3} { % if 2 and 3 are NULL
+            \def\size{0.75}
+            }{}
+
+            % add caption if not present
+        \IfNoValueTF{#2} { % if 2 and 3 are NULL
+            %\expandafter\StrSubstitute\expandafter{\temp}{-}{ }[\output]
+            \newcommand\helphere{\temp}
+            \StrBehind{\helphere}{/}[\figcaption]
+        }{}
+
+        \begin{figure}[H]
+            \begin{center}
+                \includegraphics[width=\size\textwidth]{\path}
+                % I deleted the capitalize function because it wouldn't pass []
+                % \capitalisewords{}
+                \caption{\figcaption}
+                \label{#4} % label gets rid of type and -.
+            \end{center}
+        \end{figure} 
+    }
+
+%  ┌────────────────────────┐
+%  │   Content Functions    │
+%  └────────────────────────┘
+    \newcommand{\pageSetup} {
+        \let\Title\@title
+        \let\Date\@date
+        \let\Author\@author
+
+        % \setmainfont[Scale=1.1]{CMU Serif}
+        \setmainfont{lmroman10-regular.otf}[
+            % Scale=MatchLowercase,
+            BoldFont={lmroman10-bold.otf},
+            ItalicFont={lmroman10-italic.otf},
+            BoldItalicFont={lmroman10-bolditalic.otf}
+        ]
+        \setsansfont{lmsans10-regular.otf}[Scale=MatchLowercase]
+        \setmonofont{Courier}[Scale=MatchLowercase]
+
+        % \patchcmd{\subsection}{\bfseries}{\normalsize}{}{}
+        % \patchcmd{\subsection}{0.5em}{-0.5em}{}{}
+        % \renewcommand{\thesubsection}{\normalsize\hspace{-1em}}
+
+        % makes subsection appear in-line
+        \renewcommand\subsection{\@startsection{subsubsection}{4}{\z@}%
+        {-3.25ex\@plus -1ex \@minus -.2ex}%
+        {-1.5ex \@plus -.2ex}% Formerly 1.5ex \@plus .2ex
+        {\normalfont\normalsize\bfseries}}        
+        \renewcommand{\thesubsection}{\hspace{-1em}}
+
+        % turns off section numbers
+        % \renewcommand{\thesection}{\hspace{-1em}}
+        % \renewcommand{\partname}{}
+        % \renewcommand{\thepart}{}
+
+        \newgeometry{left=1in,bottom=1in,right=1in,top=1in} % page dims
+        \setlength\parindent{0pt}	% set no tab on new paragraphs
+        \parskip = \baselineskip	% set single skip after paragraphs
+        \setlist{nosep,after=\vspace{\baselineskip}} % remove space on list
+        }\hypersetup{				% hyper-links environment
+            colorlinks,
+            linkcolor	= {black},
+            citecolor	= {black},
+            urlcolor	= {black},
+            pdfborderstyle={/S/U/W 1}
+        }
+
+    \newcommand{\createTitlePage} {
+        \vspace*{2.5cm}
+        \begin{center}
+            \thispagestyle{empty}
+            
+
+            \huge{\Title} 
+
+            % line
+            \vspace{0.25em}
+            \line(1,0){250}\normalsize 
+
+            \vspace{5mm}
+            \class 
+
+            \vspace{2cm}
+                \begin{center}
+                \includegraphics[width=0.45\textwidth]{media/title.pdf}\par
+                    Figure: Linear Data Classifier
+                \end{center}
+            \vspace{2.5cm}
+
+            \Author \vspace{-1em}
+
+            Utah State University \vspace{-1em}
+
+            \Date           \vspace{-1em}
+
+            \pagenumbering{gobble} 
+            \newpage
+        \end{center}
+    }
+
+    \newcommand{\createTableOfContents} {
+        \pagenumbering{roman}
+        \clearpage
+        % \newdimen\punktik
+        % \def\cvak{\ifdim\punktik<6pt \global\punktik=3pt \else\global\punktik=3pt \fi}
+        % \def\tocdots{\cvak\leaders\hbox to10pt{\kern\punktik.\hss}\hfill}
+        % \titlecontents{section}[0em]{\vskip -1em}{}{\itshape}{\hfill\thecontentspage}
+        % \titlecontents{subsection}[1em]{\vskip -1em}{}{} {\tocdots\thecontentspage}
+
+        
+        \renewcommand{\contentsname}{\large{Table of Contents}
+                \vspace{-1em}}
+
+        \begin{center} 
+        \tableofcontents 
+        \end{center} 
+
+        \preto\section{%
+          \ifnum\value{section}=0\addtocontents{toc}{\vskip10pt}\fi
+        }
+
+        % \clearpage
+        \renewcommand\listfigurename{\large{List of Figures}}
+        \listoffigures
+
+        % \renewcommand\listtablename{\large{List of Tables}}
+        % \listoftables
+        %
+        % \renewcommand\lstlistlistingname{\large{Listings}}
+        % \lstlistoflistings 
+
+        \newpage
+        \pagenumbering{arabic}
+    }
+
+    \newcommand{\includeHeader} {
+        \pagestyle{fancy}
+        \fancyhf{}
+        % \fancyhead[L]{Top Left}
+        \fancyhead[L]{\Title}
+        \fancyhead[R]{\nouppercase\leftmark}
+        % \fancyhead[R]{Top Right}
+        \renewcommand{\headrulewidth}{0.5pt}
+        %\fancyfoot[L]{Bottom Left}
+        \fancyfoot[C]{\thepage}
+        %\fancyfoot[R]{Bottom Right}
+        \renewcommand{\footrulewidth}{0.5pt}
+    }
+
+\begin{document}
+    \main
+\end{document}

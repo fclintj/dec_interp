@@ -1,0 +1,1 @@
+/usr/bin/c++    -std=c++11   CMakeFiles/sample_conv.dir/sample_conv.cpp.o  -o sample_conv -rdynamic 

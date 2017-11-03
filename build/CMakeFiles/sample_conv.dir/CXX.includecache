@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/CE6C52926C527565/Users/clint/Google Drive/School/Classes/Discrete Signals Processing/programming/sample_conv/source/sample_conv.cpp
+iostream
+-
+vector
+-
+string.h
+-
+cmath
+-
+
