@@ -1,0 +1,15 @@
+%% matlab test
+[y,Fs] = audioread('../data/ghostbustersray.wav');
+U=3;
+D=2;
+Fs = Fs*U/D;
+y_up = reshape(vertcat(y',zeros(size(y,1),U)'),1,[]);
+up_sampled = conv(y_up,Num);
+file = up_sampled(1:D:size(up_sampled,2));
+
+sound(file,Fs)
+
+
+
+
+% y(0:3:end)

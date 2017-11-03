@@ -11,7 +11,7 @@ fs = 0;
 
 fid = fopen(file_out,'wb');         % write binary
 fwrite(fid,[1 size(x) 1 1],'int'); % audio header
-fwrite(fid, x(:), 'float');
+fwrite(fid, x(:), 'double');
 fclose(fid);
 
 return;

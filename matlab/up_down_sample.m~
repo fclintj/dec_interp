@@ -7,7 +7,7 @@ array_to_bin(Num,'../data/h.bin')
 
 audio_to_bin('../data/ghostbustersray.wav','../data/ghostbustersray.bin');
 
-! ../build/sample_conv ../data/ghostbustersray.bin ../data/ghostbustersray_edited.bin ../data/h.bin 1 0
+! ../build/sample_conv ../data/ghostbustersray.bin ../data/ghostbustersray_edited.bin ../data/h.bin 3 0
 bin_to_audio('../data/ghostbustersray_edited.bin','../data/ghostbustersray_edited.wav');
 [y,Fs] = audioread('../data/ghostbustersray_edited.wav');
 Fs

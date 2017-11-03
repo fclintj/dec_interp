@@ -4,7 +4,7 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-IOBUFFSIZE	sample_conv.cpp	/^const int IOBUFFSIZE = 10;$/;"	v
+IOBUFFSIZE	sample_conv.cpp	/^const int IOBUFFSIZE = 5;$/;"	v
 empty	sample_conv.cpp	/^    int empty;		\/\/ length of third dimension$/;"	m	struct:__anon1	file:
 empty1	sample_conv.cpp	/^    int empty1;		\/\/ length of second dimension or sample rate$/;"	m	struct:__anon2	file:
 empty2	sample_conv.cpp	/^    int empty2;		\/\/ length of third dimension$/;"	m	struct:__anon2	file:

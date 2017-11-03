@@ -7,7 +7,7 @@ nchan = fread(fid, 1, 'int');
 dim0  = fread(fid, 1, 'int');
 dim1  = fread(fid, 1, 'int');
 dim2  = fread(fid, 1, 'int');
-[x, ~] = fread(fid, inf, 'float');
+[x, ~] = fread(fid, inf, 'double');
 fclose(fid);
 x = reshape(x, nchan, size(x,1)).';
 return

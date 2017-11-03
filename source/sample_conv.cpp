@@ -3,7 +3,7 @@
 #include <string.h>
 #include <cmath>
 
-const int IOBUFFSIZE = 10;
+const int IOBUFFSIZE = 5;
 
 typedef struct {
     int ndim;		// number of dimensions
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]){
     char* file_out = argv[2];
     char* file_h = argv[3];
     int U = atoi(argv[4])+1; //
-    int D = atoi(argv[5]); //
+    int D = atoi(argv[5])+1; //
 
     int Lh;  // size of buffer
 
@@ -72,9 +72,8 @@ int main(int argc, char* argv[]){
     memcpy(&header_y, &header_x, sizeof(header_x));
 
     // header_y.len = ceil(header_x.len*double(U)/D);
-    //     header_y.len = ceil(header_x.len*double(U)/D);
-    //
-    // header_y.fs = header_x.fs*U/D;
+
+    header_y.fs = header_x.fs*U/D;
 
     fwrite(&header_y, sizeof(header_x), 1, fy);
 
@@ -85,7 +84,7 @@ int main(int argc, char* argv[]){
     int k=0;          // Index for circular data buffer
     int m;            // Convolution loop index for filter coefficients
     int n;            // Convolution loop index for circular data buffer
-    int l=0;          // Down sampling counter
+    int long counter=0;
 
     double x[IOBUFFSIZE], y[IOBUFFSIZE];
     double *g = (double*)calloc(Lh, sizeof(double));
@@ -95,16 +94,11 @@ int main(int argc, char* argv[]){
     while(xlen>0) {                             // keep sampling 
         for(i=0; i<xlen; i++) {                 
             k = (k+Lh-1) % Lh;                  // Update circular index of filter. Lh = length(h) 
-            // l = (l+D) % D;                    // Update down-sample counter
             g[k] = x[i];                        // Put each sample into the filter circular data buffer
         
             // Convolution loop
-            if(l==0) {                          
-                for (j = 0; j<U; j++) {         // Loop over the up sampled outputs
-                    // Convolution loop 
-                    // print_arr(g,Lh);
-                    // print_arr(h,Lh);
-
+            for (j = 0; j<U; j++) {         // Loop over the up sampled outputs
+                if((counter++%D) ?  0: 1) {                          
                     for (t=0.0, m=0, n=0; n<Lh; n++, m+=U) { 
                         t += h[m+j] * g[(n+k) % Lh]; // Multiply and accumulate into local variable
                     }                           
@@ -124,7 +118,6 @@ int main(int argc, char* argv[]){
         xlen = fread(x,sizeof(double),IOBUFFSIZE,fx); // Read in next chunk of input samples
     }
     
-    // Finish writing last output samples
     if(ylen>0) {                                // If output buffer is full, then save it to output file
         fwrite(y,sizeof(double),ylen,fy);        // Write the output buffer
         ylen = 0;                               // Reset the index for the output buffer
@@ -134,4 +127,3 @@ int main(int argc, char* argv[]){
     free(g);
     return 0;
 }
-

@@ -11,7 +11,7 @@ x = x.';                            % transpose 2 audio channels
 
 fid = fopen(file_out,'wb');         % write binary
 fwrite(fid,[1 size(x) fs 0],'int'); % audio header
-fwrite(fid, x(:), 'float');
+fwrite(fid, x(:), 'double');
 fclose(fid);
 
 return;
