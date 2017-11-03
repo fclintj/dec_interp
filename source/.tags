@@ -4,17 +4,18 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-IOBUFFSIZE	sample_conv.cpp	/^const int IOBUFFSIZE = 1024;$/;"	v
+IOBUFFSIZE	sample_conv.cpp	/^const int IOBUFFSIZE = 10;$/;"	v
 empty	sample_conv.cpp	/^    int empty;		\/\/ length of third dimension$/;"	m	struct:__anon1	file:
-empty1	sample_conv.cpp	/^    int empty1;			\/\/ length of second dimension or sample rate$/;"	m	struct:__anon2	file:
+empty1	sample_conv.cpp	/^    int empty1;		\/\/ length of second dimension or sample rate$/;"	m	struct:__anon2	file:
 empty2	sample_conv.cpp	/^    int empty2;		\/\/ length of third dimension$/;"	m	struct:__anon2	file:
 fs	sample_conv.cpp	/^    int fs;			\/\/ length of second dimension or sample rate$/;"	m	struct:__anon1	file:
 len	sample_conv.cpp	/^    int len;    	\/\/ length of first dimension$/;"	m	struct:__anon1	file:
 len	sample_conv.cpp	/^    int len;    	\/\/ length of first dimension$/;"	m	struct:__anon2	file:
 main	sample_conv.cpp	/^int main(int argc, char* argv[]){$/;"	f
-nchan	sample_conv.cpp	/^    int nchan;		\/\/ nummber of channels$/;"	m	struct:__anon1	file:
-nchan	sample_conv.cpp	/^    int nchan;		\/\/ nummber of channels$/;"	m	struct:__anon2	file:
+nchan	sample_conv.cpp	/^    int nchan;		\/\/ number of channels$/;"	m	struct:__anon1	file:
+nchan	sample_conv.cpp	/^    int nchan;		\/\/ number of channels$/;"	m	struct:__anon2	file:
 ndim	sample_conv.cpp	/^    int ndim;		\/\/ number of dimensions$/;"	m	struct:__anon1	file:
 ndim	sample_conv.cpp	/^    int ndim;		\/\/ number of dimensions$/;"	m	struct:__anon2	file:
+print_arr	sample_conv.cpp	/^void print_arr(double arr[], int size){$/;"	f
 sound_header	sample_conv.cpp	/^} sound_header;$/;"	t	typeref:struct:__anon1	file:
 transfer_function	sample_conv.cpp	/^} transfer_function;$/;"	t	typeref:struct:__anon2	file:
